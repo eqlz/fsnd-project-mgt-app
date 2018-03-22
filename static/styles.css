@@ -1,0 +1,30 @@
+nav a {
+    color:  #FFFFFF;
+}
+
+.center-box {
+    margin-top: 10px;
+}
+
+.right-box {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.title {
+    font-size: 24px;
+}
+
+.new-project-button {
+    text-align: right;
+}
+
+.task-row {
+    margin-top: 20px;
+    font-size: 19px;
+}
+
+form {
+    margin-top: 20px;
+    font-size: 19px;
+}

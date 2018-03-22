@@ -1,0 +1,22 @@
+{% extends "publicbase.html" %}
+
+{% block left %}
+<span>Back to</span><br>
+  <span><a href="{{ url_for('project', project_name=project_name) }}">{{project_name}}</a></span><br>
+{% endblock %}
+
+{% block center %}
+<div class="row">
+  <div class="col">
+    <span class="title" style="font-size: 24px;">{{ task.name }}</span>
+  </div>
+</div>
+
+<!--<div>{{ task.content }}</div>-->
+
+<div class="card" style="margin-top: 20px;">
+  <div class="card-body">
+    {{ task.content }}
+  </div>
+</div>
+{% endblock %}

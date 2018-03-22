@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+    <title>Manage Your Project</title>
+  </head>
+  
+  <body>
+    <div class="container">
+      <nav class="navbar nav-expand-md navbar-dark bg-primary">       
+        <!--<span class="navbar-brand">Manage Your Projects</span>-->
+        <a class="nav-link" href="/" style="color: white;">Manage Your Projects</a>  
+        <a class="nav-link" href="/gdisconnect" style="color: white;">Log Out</a>  
+            
+      </nav>
+      
+      <div class="row">
+        <div class="col" style="margin-top: 20px; text-align: left;">
+          {% block left %}
+          
+          {% endblock %}
+        </div>
+
+        <div class="col-6 center-box" style="margin-top: 20px;">
+          {% block center %}
+          {% endblock %}
+        </div>
+
+        <div class="col right-box" style="margin-top: 20px; text-align: right;">
+          <p>Logged in {{email}}<p/>
+        </div>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block left %}
+  <span>Back to</span><br>
+      <span><a href="{{ url_for('project', project_name=project_name) }}">{{project_name}}</a></span><br>
+{% endblock %}
+
+{% block center %}
+  <div class="row">
+    <div class="col"> 
+      <span class="title" style="font-size: 24px;">Edit project name: {{project_name}}</span>
+    </div>
+  </div>
+
+    <form action="{{ url_for('edit_project', project_name=project_name) }}" method="post" style="margin-top: 20px; font-size: 19px">
+      <div class="form-group">
+      <label>New Name</label>
+      <input class="form-control" type="text" name="new_project_name">
+      </div>
+      <input class="btn btn-primary btn-sm" type="submit" value="Edit">
+    </form>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block center %}
+  <div class="row">
+    <div class="col"> 
+      <span class="title" style="font-size: 24px;">Add a new project</span>
+    </div>
+  </div>
+
+  <form action="/project/new" method="post" style="margin-top: 20px; font-size: 19px">
+    <div class="form-group">
+      <label>Project Name</label>
+      <input class="form-control" type="text" name="project_name">
+    </div>
+    <input class="btn btn-primary btn-sm" type="submit" value="Add">
+  </form>
+{% endblock %}

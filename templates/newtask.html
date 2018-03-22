@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block left %}
+  <span>Back to</span><br>
+    <span><a href="{{ url_for('project', project_name=project_name) }}">{{project_name}}</a></span><br>
+{% endblock %}
+
+{% block center %}
+  <div class="row">
+    <div class="col"> 
+      <span class="title" style="font-size: 24px;">Add a new task</span>
+    </div>
+  </div>
+
+  <form action="{{ url_for('new_task', project_name=project_name) }}" method="post" style="margin-top: 20px; font-size: 19px">
+    <div class="form-group">
+      <label>Task name</label> 
+      <input class="form-control" type="text" name="task_name">
+    </div>
+
+    <div class="form-group">
+      <label>Task content</label>
+      <input class="form-control" type="textarea" name="task_content">
+    </div>
+
+    <input class="btn btn-primary btn-sm" type="submit" value="Add">
+  </form>
+{% endblock %}

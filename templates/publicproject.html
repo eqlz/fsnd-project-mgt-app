@@ -1,0 +1,29 @@
+{% extends "publicbase.html" %}
+
+{% block left %}
+<span>Jump to</span><br>
+{% for project in projects%}
+  <span><a href="{{ url_for('project', project_name=project.name) }}">{{project.name}}</a></span><br>
+{% endfor %}
+{% endblock %}
+
+{% block center %}
+<div class="row">
+  <div class="col-9"> 
+    <span class="title" style="font-size: 24px;">{{u_project_name}}</span>
+  </div>
+</div>
+
+<!-- show a list of tasks within this project -->
+<div class="row" >
+  <div class="col task-row" style="margin-top: 20px; font-size: 19px">
+    <span>Tasks</span>
+  </div>
+</div>
+
+<ul class="list-group">
+{% for task in tasks %}
+  <li class="list-group-item"><a href="{{ url_for('task', project_name=u_project_name, task_name=task.name) }}">{{task.name}}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

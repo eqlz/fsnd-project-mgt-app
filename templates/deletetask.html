@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block left %}
+  <span>Back to</span><br>
+      <span><a href="{{ url_for('project', project_name=project_name) }}">{{project_name}}</a></span><br>
+{% endblock %}
+
+{% block center %}
+  <div class="row">
+    <div class="col"> 
+      <span class="title" style="font-size: 24px;">Delete task: {{task_name}}</span>
+    </div>
+  </div>
+
+  <form action="{{ url_for('delete_task', project_name=project_name, task_name=task_name) }}" method="post" style="margin-top: 20px; font-size: 19px">
+    <div class="form-group">
+      <input class="btn btn-primary btn-sm" type="submit" value="Delete">
+    </div>
+  </form>
+{% endblock %}

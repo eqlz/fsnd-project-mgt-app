@@ -1,0 +1,37 @@
+<!--<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta char="utf-8">
+    <title>Manage Projects</title>
+  </head>
+
+  <body>
+    <h1>Manage Your Projects</h1>-->
+    {% extends "base.html" %}
+    {% block center %}
+    <!--<a href="/gdisconnect">Log out</a>-->
+    <div class="row">
+      <div class="col"> 
+        <span class="title" style="font-size: 24px;">Projects</span>
+      </div>
+      <div class="col new-project-button" style="text-align: right;">
+        <a class="btn btn-primary btn-sm" href="/project/new">+ New Project</a>
+      </div>
+    </div>
+      
+      
+      <ul class="list-group" style="margin-top: 10px">
+        {% for project in projects%}
+        <li class="list-group-item"><a href="{{ url_for('project', project_name=project.name) }}">{{project.name}}</a></li>
+        {% endfor %}
+      </ul>
+    {% endblock %}    
+    <!--
+    <h2>Tasks</h2>
+      <ul>
+        <li><a href="#">task 1</a></li>
+        <li><a href="#">task 2</a></li>
+      </ul>
+    
+    </body>
+</html>-->
