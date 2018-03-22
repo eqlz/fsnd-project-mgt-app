@@ -1,52 +1,38 @@
-<!--<!DOCTYPE HTML>
-<html>
-  <head>
-    <meta char="utf-8">
-    <title>Manage Projects</title>
-    
-  </head>
+{% extends "base.html" %}
 
-  <body>
-    <h1>Manage Your Projects</h1>-->
+{% block left %}
+<span>Jump to</span><br>
+{% for project in projects%}
+  <span><a href="{{ url_for('project', project_name=project.name) }}">{{project.name}}</a></span><br>
+{% endfor %}
+{% endblock %}
 
-    {% extends "base.html" %}
-    
-    {% block left %}
-    <span>Jump to</span><br>
-    {% for project in projects%}
-      <span><a href="{{ url_for('project', project_name=project.name) }}">{{project.name}}</a></span><br>
-    {% endfor %}
-    {% endblock %}
+{% block center %}
+<div class="row">
+  <div class="col-9"> 
+    <span class="title" style="font-size: 24px;">{{u_project_name}}</span>
+  </div>
 
-    {% block center %}
-    <div class="row">
-      <div class="col-9"> 
-        <span class="title" style="font-size: 24px;">{{u_project_name}}</span>
-      </div>
+  <div class="col-3 new-project-button" style="text-align: right;">
+    <a class="btn btn-primary btn-sm" href="{{ url_for('new_task', project_name=u_project_name) }}">+ New Task</a>
+  </div>
+</div>
 
-      <div class="col-3 new-project-button" style="text-align: right;">
-        <a class="btn btn-primary btn-sm" href="{{ url_for('new_task', project_name=u_project_name) }}">+ New Task</a>
-      </div>
-    </div>
+<!--<a href="/">Homepage</a> <br><br>-->
+<!--<a href="{{ url_for('new_task', project_name=project_name) }}">Add A New Task</a> <br><br>-->
+<a href="{{ url_for('edit_project', project_name=u_project_name) }}">Edit</a> or
+<a href="{{ url_for('delete_project', project_name=u_project_name) }}">Delete</a>
 
-    <!--<a href="/">Homepage</a> <br><br>-->
-    <!--<a href="{{ url_for('new_task', project_name=project_name) }}">Add A New Task</a> <br><br>-->
-    <a href="{{ url_for('edit_project', project_name=u_project_name) }}">Edit</a> or
-    <a href="{{ url_for('delete_project', project_name=u_project_name) }}">Delete</a>
+<!-- show a list of tasks within this project -->
+<div class="row" >
+  <div class="col task-row" style="margin-top: 20px; font-size: 19px">
+    <span>Tasks</span>
+  </div>
+</div>
 
-    <!-- show a list of tasks within this project -->
-    <div class="row" >
-      <div class="col task-row" style="margin-top: 20px; font-size: 19px">
-        <span>Tasks</span>
-      </div>
-    </div>
-
-    <ul class="list-group">
-    {% for task in tasks %}
-      <li class="list-group-item"><a href="{{ url_for('task', project_name=u_project_name, task_name=task.name) }}">{{task.name}}</a></li>
-    {% endfor %}
-    </ul>
-    {% endblock %}
-    
-<!--  </body>
-</html>-->
+<ul class="list-group">
+{% for task in tasks %}
+  <li class="list-group-item"><a href="{{ url_for('task', project_name=u_project_name, task_name=task.name) }}">{{task.name}}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}
