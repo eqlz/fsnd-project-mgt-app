@@ -21,6 +21,7 @@ class Project(Base):
     name = Column(String(250), nullable=False)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
+    task = relationship('Task', cascade='all, delete-orphan')
 
     @property
     def serialize(self):
@@ -34,7 +35,7 @@ class Task(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
     content = Column(String(500))
-    project_id = Column(Integer, ForeignKey("project.id"))
+    project_id = Column(Integer, ForeignKey('project.id'))
     project = relationship(Project)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)

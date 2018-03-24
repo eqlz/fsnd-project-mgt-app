@@ -5,7 +5,7 @@ from models import Base, Project, Task, User
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine, desc
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import (Flask, render_template, request, redirect, url_for, jsonify)
 
 from flask import session as login_session
 import random
@@ -37,7 +37,7 @@ def createUser(login_session):
     return user.id
 
 def getUserInfo(user_id):
-    user = session.query(User).filter_by(id=user.id).one()
+    user = session.query(User).filter_by(id=user_id).one()
     return user
 
 def getUserID(email):
@@ -52,13 +52,13 @@ def projects_json():
     projects = session.query(Project).all()
     return jsonify(Projects=[i.serialize for i in projects])
 
-@app.route('/project/<project_name>/JSON')
+@app.route('/project/<string:project_name>/JSON')
 def project_tasks_json(project_name):
     project = session.query(Project).filter_by(name=project_name).one()
     tasks = session.query(Task).filter_by(project_id=project.id).all()
     return jsonify(ProjectTasks=[i.serialize for i in tasks])
 
-@app.route('/project/<project_name>/task/<task_name>/JSON')
+@app.route('/project/<string:project_name>/task/<string:task_name>/JSON')
 def task_json(project_name, task_name):
     project = session.query(Project).filter_by(name=project_name).one()
     task = session.query(Task).filter_by(project_id=project.id, name=task_name).one()
@@ -209,17 +209,26 @@ def index():
     print projects
     if 'email' not in login_session:
         return render_template('publicindex.html', projects=projects)
-    return render_template('index.html', projects=projects, email=login_session['email'])
+    return render_template('index.html',
+                           projects=projects,
+                           email=login_session['email'])
 
-@app.route('/project/<project_name>')
+@app.route('/project/<string:project_name>')
 def project(project_name):
     # find the project's id in table Project
     projects = session.query(Project).all()
     project = session.query(Project).filter_by(name = project_name).one()
     tasks = session.query(Task).filter_by(project_id = project.id)
     if 'email' not in login_session:
-        return render_template('publicproject.html', projects=projects, u_project_name=project.name, tasks=tasks)
-    return render_template('project.html', projects=projects, u_project_name=project_name, tasks=tasks, email=login_session['email'])
+        return render_template('publicproject.html', 
+                               projects=projects,
+                               u_project_name=project.name,
+                               tasks=tasks)
+    return render_template('project.html', 
+                           projects=projects,
+                           u_project_name=project_name,
+                           tasks=tasks,
+                           email=login_session['email'])
 
 @app.route('/project/new', methods=['POST', 'GET'])
 def new_project():
@@ -234,7 +243,7 @@ def new_project():
     else:
         return render_template('newproject.html', email=login_session['email'])
 
-@app.route('/project/<project_name>/edit', methods=['POST', 'GET'])
+@app.route('/project/<string:project_name>/edit', methods=['POST', 'GET'])
 def edit_project(project_name):
     project = session.query(Project).filter_by(name = project_name).one()
     if 'email' not in login_session:
@@ -242,7 +251,8 @@ def edit_project(project_name):
     if project.user_id != login_session['user_id']:
         return """<script>
                   function myFunction() {
-                      alert('You are not authorized to edit this project. Please create your own project in order to edit.');
+                    alert('You are not authorized to edit this project. ' +
+                          'Please create your own project in order to edit.');
                   }
                   </script>
                   <body onload='myFunction()'>
@@ -253,9 +263,11 @@ def edit_project(project_name):
             session.commit()
             return redirect(url_for('project', project_name=project.name))
     else:
-        return render_template('editproject.html', project_name=project_name, email=login_session['email'])
+        return render_template('editproject.html',
+                               project_name=project_name,
+                               email=login_session['email'])
 
-@app.route('/project/<project_name>/delete', methods=['POST', 'GET'])
+@app.route('/project/<string:project_name>/delete', methods=['POST', 'GET'])
 def delete_project(project_name):
     project = session.query(Project).filter_by(name = project_name).one()
     if 'email' not in login_session:
@@ -263,7 +275,8 @@ def delete_project(project_name):
     if project.user_id != login_session['user_id']:
         return """<script>
                   function myFunction() {
-                      alert('You are not authorized to delete this project. Please create your own project in order to delete.');
+                      alert('You are not authorized to delete this project. ' +
+                        'Please create your own project in order to delete.');
                   }
                   </script>
                   <body onload='myFunction()'>
@@ -273,17 +286,26 @@ def delete_project(project_name):
         session.commit()
         return redirect(url_for('index'))
     else:
-        return render_template('deleteproject.html', project_name=project_name, email=login_session['email'])
+        return render_template('deleteproject.html', 
+                               project_name=project_name,
+                               email=login_session['email'])
 
-@app.route('/project/<project_name>/task/<task_name>')
+@app.route('/project/<string:project_name>/task/<string:task_name>')
 def task(project_name, task_name):
     projects = session.query(Project).all()
     task = session.query(Task).filter_by(name=task_name).one()
     if 'email' not in login_session:
-        return render_template('publictask.html', projects=projects, project_name=project_name, task=task)
-    return render_template('task.html', projects=projects, project_name=project_name, task=task, email=login_session['email'])
+        return render_template('publictask.html',
+                               projects=projects,
+                               project_name=project_name,
+                               task=task)
+    return render_template('task.html',
+                           projects=projects,
+                           project_name=project_name,
+                           task=task,
+                           email=login_session['email'])
 
-@app.route('/project/<project_name>/task/new', methods=['POST', 'GET'])
+@app.route('/project/<string:project_name>/task/new', methods=['POST', 'GET'])
 def new_task(project_name):
     project = session.query(Project).filter_by(name = project_name).one()
     if 'email' not in login_session:
@@ -291,7 +313,8 @@ def new_task(project_name):
     if project.user_id != login_session['user_id']:
         return """<script>
                   function myFunction() {
-                      alert('You are not authorized to add task. Please create your own task.');
+                      alert('You are not authorized to add task. ' +
+                        'Please create your own task.');
                   }
                   </script>
                   <body onload='myFunction()'>
@@ -299,14 +322,19 @@ def new_task(project_name):
     if request.method == 'POST':
         name = request.form['task_name']
         content = request.form['task_content']
-        new_task = Task(name=name, content=content, project_id=project.id, user_id=login_session['user_id'])
+        new_task = Task(name=name,
+                        content=content,
+                        project_id=project.id,
+                        user_id=login_session['user_id'])
         session.add(new_task)
         session.commit()
         return redirect(url_for('project', project_name=project_name))
     else:
-        return render_template('newtask.html', project_name=project.name, email=login_session['email'])
+        return render_template('newtask.html',
+                               project_name=project.name,
+                               email=login_session['email'])
 
-@app.route('/project/<project_name>/task/<task_name>/edit', methods=['POST', 'GET'])
+@app.route('/project/<string:project_name>/task/<string:task_name>/edit', methods=['POST', 'GET'])
 def edit_task(project_name, task_name):
     task = session.query(Task).filter_by(name = task_name).one()
     if 'email' not in login_session:
@@ -314,7 +342,8 @@ def edit_task(project_name, task_name):
     if task.user_id != login_session['user_id']:
         return """<script>
                   function myFunction() {
-                      alert('You are not authorized to edit this task. Please create your own task in order to delete.');
+                      alert('You are not authorized to edit this task. ' +
+                        'Please create your own task in order to delete.');
                   }
                   </script>
                   <body onload='myFunction()'>
@@ -327,9 +356,12 @@ def edit_task(project_name, task_name):
         session.commit()
         return redirect(url_for('project', project_name=project_name))
     else:
-        return render_template('edittask.html', project_name=project_name, task_name=task_name, email=login_session['email'])
+        return render_template('edittask.html',
+                               project_name=project_name,
+                               task_name=task_name,
+                               email=login_session['email'])
 
-@app.route('/project/<project_name>/task/<task_name>/delete', methods=['POST', 'GET'])
+@app.route('/project/<string:project_name>/task/<string:task_name>/delete', methods=['POST', 'GET'])
 def delete_task(project_name, task_name):
     task = session.query(Task).filter_by(name=task_name).one()
     if 'email' not in login_session:
@@ -337,7 +369,8 @@ def delete_task(project_name, task_name):
     if task.user_id != login_session['user_id']:
         return """<script>
                   function myFunction() {
-                      alert('You are not authorized to delete this task. Please create your own task in order to delete.');
+                      alert('You are not authorized to delete this task. ' +
+                        'Please create your own task in order to delete.');
                   }
                   </script>
                   <body onload='myFunction()'>
@@ -347,7 +380,10 @@ def delete_task(project_name, task_name):
         session.commit()
         return redirect(url_for('project', project_name=project_name))
     else:
-        return render_template('deletetask.html', project_name=project_name, task_name=task_name, email=login_session['email'])
+        return render_template('deletetask.html',
+                               project_name=project_name,
+                               task_name=task_name,
+                               email=login_session['email'])
 
 if __name__ == "__main__":
     app.secret_key = 'super_secret_key'
