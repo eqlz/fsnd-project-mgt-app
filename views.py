@@ -22,7 +22,7 @@ CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_i
 # "client_id":"28315248340-l3h40plg6m44nde6j1359bgbplft9bh4.apps.googleusercontent.com"
 APPLICATION_NAME = "Project Management App"
 
-engine = create_engine("sqlite:///projectmgtwithuser.db")
+engine = create_engine("postgresql://catalog:DB-PASSWORD@localhost/catalog")
 Base.metadata.bind = engine
 Session = sessionmaker(bind=engine)
 session = Session()
