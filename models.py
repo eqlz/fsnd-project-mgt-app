@@ -47,6 +47,6 @@ class Task(Base):
             'content': self.content
         }
 
-engine = create_engine('sqlite:///projectmgtwithuser.db')
+engine = create_engine('postgresql://catalog:DB-PASSWORD@localhost/catalog')
 
 Base.metadata.create_all(engine)
