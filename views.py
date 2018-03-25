@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 
-from models import Base, Project, Task, User
+from catalog.models import Base, Project, Task, User
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine, desc
@@ -26,7 +26,6 @@ engine = create_engine("sqlite:///projectmgtwithuser.db")
 Base.metadata.bind = engine
 Session = sessionmaker(bind=engine)
 session = Session()
-app = Flask(__name__)
 
 # user helper function
 def createUser(login_session):
@@ -130,15 +129,13 @@ def gconnect():
     # signed Base64-encoded JSON object
     gplus_id = credentials.id_token['sub']
     if result['sub'] != gplus_id:
-        response = make_response(
-            json.dumps("Token's user ID doesn't match given user ID."), 401)
+        response = make_response(json.dumps("Token's user ID doesn't match given user ID."), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
     # Verify that the access token is valid for this app.
     if result['aud'] != CLIENT_ID:
-        response = make_response(
-            json.dumps("Token's client ID does not match app's."), 401)
+        response = make_response(json.dumps("Token's client ID does not match app's."), 401)
         print "Token's client ID does not match app's."
         response.headers['Content-Type'] = 'application/json'
         return response
